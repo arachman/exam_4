@@ -146,17 +146,18 @@ bool loadGame(string fileName) // #8 Atmanjaya Rachman
 
       for (int i = 0; i < mapHeight /* -- MISSING CODE -- */; i++)
       {
-        file.getline(buffer, mapWidth); /* -- MISSING CODE -- */
+        file.getline(buffer, mapWidth + 1); /* -- MISSING CODE -- */
+        file.clear(); // fail bit needs to be reset after successful read to end of line
         if (file.fail())
         {
           break;
         }
-        else if (buffer[0] == '\0')
+        else if (buffer[0] == '\0' || buffer[0] == '\r') // Add condition to ignore new line after the first line
         {
           i--;
           continue;
         }
-        mapText; /* -- MISSING CODE -- */
+        mapText += buffer; /* -- MISSING CODE -- */
       }
 
       if (mapText.length() == mapWidth * mapHeight)
@@ -182,19 +183,22 @@ bool loadGame(string fileName) // #8 Atmanjaya Rachman
             }
 
             /* -- MISSING CODE -- */
+            file >> item; //read item
             if (file.fail())
             {
               i--;
               continue;
             }
-
+          
             /* -- MISSING CODE -- */
+            file >> value; //read value from file
             if (file.fail())
             {
               i--;
               continue;
             }
 
+            // The following are used by doUpdateAfterLoadGame
             FILE_INVENTORY_ITEMS[i] = item;
             FILE_INVENTORY_VALUES[i] = value;
           }
@@ -206,7 +210,6 @@ bool loadGame(string fileName) // #8 Atmanjaya Rachman
   }
 
   file.close();
-
   return success;
 }
 
